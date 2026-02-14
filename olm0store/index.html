@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CREATOR GEAR PRO | ADMIN ANAS</title>
+    
+    <!-- المكتبات الخارجية للفخامة -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com"/>
+    <script src="https://cdn.jsdelivr.net"></script>
+
+    <style>
+        /* --- الألوان النادرة والمبهرة (Neon & Cyberpunk) --- */
+        :root {
+            --bg-deep: #0b021d;
+            --card-bg: #1a0b36;
+            --cyan-neon: #00f2ff;
+            --pink-neon: #ff00c1;
+            --gold: #ffcc00;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        * { box-sizing: border-box; transition: all 0.3s ease; }
+
+        body {
+            background-color: var(--bg-deep);
+            background-image: radial-gradient(circle at center, #1a0b36 0%, #0b021d 100%);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* --- الهيدر الفخم --- */
+        header {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 20px 8%; background: rgba(26, 11, 54, 0.9);
+            backdrop-filter: blur(20px); position: sticky; top: 0; z-index: 1000;
+            border-bottom: 2px solid var(--cyan-neon);
+            box-shadow: 0 5px 20px rgba(0, 242, 255, 0.2);
+        }
+
+        .logo { 
+            font-size: 2rem; font-weight: 900; cursor: pointer; 
+            color: var(--pink-neon); text-shadow: 0 0 15px var(--pink-neon); 
+        }
+        .logo span { color: var(--cyan-neon); text-shadow: 0 0 15px var(--cyan-neon); }
+
+        .search-container input {
+            background: #25124a; border: 2px solid var(--cyan-neon);
+            color: white; padding: 12px 25px; border-radius: 30px; 
+            outline: none; width: 350px; font-size: 1rem;
+        }
+        .search-container input:focus { box-shadow: 0 0 20px var(--cyan-neon); width: 400px; }
+
+        /* --- لوحة التحكم (المدير أنس) --- */
+        #adminPanel {
+            display: none; background: var(--glass); border: 2px dashed var(--cyan-neon);
+            padding: 30px; margin: 30px 8%; border-radius: 25px;
+            backdrop-filter: blur(10px); animation: fadeInDown 0.8s;
+        }
+        .admin-controls { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; }
+        .admin-input { 
+            padding: 12px; border-radius: 10px; border: 1px solid var(--cyan-neon); 
+            background: #000; color: #fff; flex: 1; min-width: 200px;
+        }
+
+        /* --- عجلة الحظ النيون --- */
+        .wheel-section { 
+            text-align: center; padding: 60px; margin: 40px 8%; 
+            border-radius: 40px; background: rgba(255, 255, 255, 0.02); 
+            border: 1px solid var(--pink-neon); box-shadow: inset 0 0 50px rgba(255, 0, 193, 0.1);
+        }
+        #wheel {
+            width: 300px; height: 300px; border-radius: 50%; border: 8px solid #fff;
+            margin: 30px auto; position: relative; transition: transform 4s cubic-bezier(0.1, 0, 0.1, 1);
+            background: conic-gradient(var(--cyan-neon) 0% 25%, var(--pink-neon) 25% 50%, var(--gold) 50% 75%, #7000ff 75% 100%);
+            box-shadow: 0 0 40px var(--cyan-neon), inset 0 0 20px rgba(0,0,0,0.5);
+        }
+        #wheel::after { content: '▼'; position: absolute; top: -25px; left: 50%; transform: translateX(-50%); font-size: 30px; color: white; z-index: 10; }
+
+        /* --- شبكة المنتجات --- */
+        .products-grid { 
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 40px; padding: 50px 8%; 
+        }
+        .product-card {
+            background: var(--card-bg); padding: 30px; border-radius: 30px; 
+            text-align: center; border: 1px solid rgba(255, 255, 255, 0.05); 
+            position: relative; overflow: hidden;
+        }
+        .product-card:hover { 
+            transform: translateY(-15px) scale(1.02); 
+            border-color: var(--cyan-neon); 
+            box-shadow: 0 15px 40px rgba(0, 242, 255, 0.2); 
+        }
+        .product-card img { width: 100%; border-radius: 20px; height: 350px; object-fit: cover; margin-bottom: 20px; }
+
+        /* --- النجوم الذهبية التفاعلية --- */
+        .stars-container { margin-bottom: 20px; }
+        .star { 
+            font-size: 35px; cursor: pointer; color: #2a1a4a; 
+            transition: 0.3s; display: inline-block; 
+        }
+        .star.active { 
+            color: var(--gold); text-shadow: 0 0 15px var(--gold); 
+            transform: scale(1.2) rotate(5deg); 
+        }
+
+        .price-tag { font-size: 2rem; font-weight: bold; color: var(--cyan-neon); margin: 20px 0; }
+
+        /* --- الأزرار --- */
+        .btn-action {
+            background: linear-gradient(45deg, var(--pink-neon), #7000ff);
+            border: none; padding: 15px 35px; color: white; border-radius: 50px;
+            font-weight: bold; font-size: 1.1rem; cursor: pointer; width: 100%;
+            box-shadow: 0 5px 15px rgba(255, 0, 193, 0.3);
+        }
+        .btn-action:hover { letter-spacing: 2px; filter: brightness(1.2); transform: translateY(-3px); }
+
+        /* --- سلة المشتريات الجانبية --- */
+        .cart-panel {
+            position: fixed; left: -100%; top: 0; width: 400px; height: 100%;
+            background: #0d041a; z-index: 2000; padding: 40px; 
+            transition: 0.7s cubic-bezier(0.8, 0, 0.2, 1);
+            border-right: 3px solid var(--pink-neon); box-shadow: 20px 0 60px rgba(0,0,0,0.8);
+        }
+        .cart-panel.active { left: 0; }
+        .cart-item { display: flex; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #222; animation: fadeInLeft 0.5s; }
+
+        /* --- شاشة مبروك (إتمام الشراء) --- */
+        #successOverlay {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98);
+            z-index: 9999; align-items: center; justify-content: center; text-align: center;
+        }
+        .success-card { 
+            background: var(--card-bg); padding: 70px; border-radius: 50px; 
+            border: 3px solid var(--gold); box-shadow: 0 0 50px var(--gold);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo" onclick="accessAdmin()">CREATOR<span>GEAR</span></div>
+        <div class="search-container">
+            <input type="text" id="mainSearch" placeholder="ابحث عن معداتك القادمة..." onkeyup="liveSearch()">
+        </div>
+        <div style="cursor:pointer; font-size: 1.8rem;" onclick="toggleCart()">
+            🛒 <span id="cartBadge" style="background:var(--pink-neon); font-size:14px; padding:3px 10px; border-radius:50%;">0</span>
+        </div>
+    </header>
+
+    <!-- لوحة تحكم أنس المخفية -->
+    <div id="adminPanel">
+        <h2 style="color:var(--cyan-neon); margin-top:0;">لوحة تحكم المدير أنس 👑</h2>
+        <div class="admin-controls">
+            <button class="btn-action" onclick="generateSmartCoupon()" style="width:auto">توليد كود خصم ذكي</button>
+            <div id="couponDisplay" style="color:var(--gold); font-weight:bold; font-size:1.2rem;"></div>
+        </div>
+        <div class="admin-controls" style="margin-top:20px;">
+            <input type="text" id="newPName" class="admin-input" placeholder="اسم المنتج الجديد">
+            <input type="number" id="newPPrice" class="admin-input" placeholder="السعر بالدولار">
+            <input type="text" id="newPImg" class="admin-input" placeholder="رابط الصورة (اختياري)">
+            <button class="btn-action" onclick="pushProduct()" style="width:auto">إضافة للمتجر الآن</button>
+        </div>
+    </div>
+
+    <!-- عجلة الحظ -->
+    <section class="wheel-section animate__animated animate__fadeIn">
+        <h1 style="font-size: 2.5rem; margin-top:0;">🎡 عجلة الحظ: اربح معدات أو خصومات!</h1>
+        <div id="wheel"></div>
+        <button class="btn-action" onclick="startSpin()" style="width:auto; padding: 15px 60px;">إلعب الآن (مرة واحدة)</button>
+    </section>
+
+    <!-- شبكة المنتجات -->
+    <main class="products-grid" id="mainGrid">
+        <!-- منتج 1 -->
+        <div class="product-card animate__animated animate__zoomIn" data-title="كاميرا سينمائية">
+            <img src="data:image/jpeg;base64,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">
+            <h3>كاميرا Red Cinema 8K</h3>
+            <div class="stars-container">
+                <span class="star" onclick="handleRating(this)">★</span><span class="star" onclick="handleRating(this)">★</span><span class="star" onclick="handleRating(this)">★</span><span class="star" onclick="handleRating(this)">★</span><span class="star" onclick="handleRating(this)">★</span>
+            </div>
+            <div class="price-tag">3,200 $</div>
+            <button class="btn-action" onclick="addToCart('كاميرا Red 8K', 3200)">إضافة للسلة ⚡</button>
+        </div>
+
+        <!-- منتج 2 -->
+        <div class="product-card animate__animated animate__zoomIn" style="animation-delay: 0.2s;" data-title="مايكروفون">
+            <img src="data:image/jpeg;base64,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">
+            <h3>مايكروفون Shure SM7B</h3>
+            <div class="stars-container">
+                <span class="star" onclick="handleRating(this)">★</span><span class="star" onclick="handleRating(this)">★</span><span class="star" onclick="handleRating(this)">★</span><span class="star" onclick="handleRating(this)">★</span><span class="star" onclick="handleRating(this)">★</span>
+            </div>
+            <div class="price-tag">450 $</div>
+            <button class="btn-action" onclick="addToCart('مايك Shure', 450)">إضافة للسلة ⚡</button>
+        </div>
+    </main>
+
+    <!-- السلة الجانبية -->
+    <div id="sideCart" class="cart-panel">
+        <h1 style="border-bottom: 2px solid var(--cyan-neon); padding-bottom: 20px;">سلة المحترفين 💎</h1>
+        <div id="cartList" style="max-height: 50vh; overflow-y: auto;"></div>
+        
+        <div style="margin-top: 30px;">
+            <input type="text" id="couponInput" placeholder="أدخل كود الخصم (انس-XXXX)" style="width:100%; padding:15px; background:#000; color:#fff; border:1px solid var(--cyan-neon); border-radius:10px;">
+            <div style="font-size: 2rem; margin: 25px 0;">الإجمالي: <span id="finalTotal" style="color:var(--cyan-neon)">0</span> $</div>
+            <button class="btn-action" onclick="processPayment()">إتمام الشراء والدفع الآن ✅</button>
+            <button class="btn-action" onclick="toggleCart()" style="background:none; border:1px solid #444; margin-top:15px; box-shadow:none;">إغلاق السلة</button>
+        </div>
+    </div>
+
+    <!-- شاشة مبروك النهائية -->
+    <div id="successOverlay">
+        <div class="success-card animate__animated animate__jackInTheBox">
+            <h1 style="color:var(--gold); font-size: 5rem; margin:0;">مبروك! 🎉</h1>
+            <h2 style="margin: 20px 0;">تمت عملية الشراء بنجاح يا بطل</h2>
+            <p style="font-size: 1.3rem; opacity: 0.8;">شكراً لاختيارك متجر أنس. سيتم معالجة طلبك فوراً.</p>
+            <button class="btn-action" onclick="location.reload()" style="width:auto; margin-top:30px;">العودة للمتجر الرئيسي</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+        let validCoupons = ["انس-2024", "SPIN-50"];
+        let currentDiscount = 0;
+
+        // --- نظام الإدارة لـ انس ---
+        function accessAdmin() {
+            let pass = prompt("أدخل كود الأمان السري (المدير أنس):");
+            if(pass === "انس") {
+                document.getElementById('adminPanel').style.display = 'block';
+                alert("أهلاً بك يا مدير انس! تم تفعيل صلاحياتك.");
+            }
+        }
+
+        function generateSmartCoupon() {
+            let newCode = "انس-" + Math.floor(1000 + Math.random() * 9000);
+            validCoupons.push(newCode);
+            document.getElementById('couponDisplay').innerText = "كود الخصم الجديد: " + newCode;
+        }
+
+        function pushProduct() {
+            let n = document.getElementById('newPName').value;
+            let p = document.getElementById('newPPrice').value;
+            let img = document.getElementById('newPImg').value || 'https://via.placeholder.com';
+            if(!n || !p) return alert("يرجى إدخال البيانات");
+
+            let grid = document.getElementById('mainGrid');
+            grid.innerHTML += `
+                <div class="product-card animate__animated animate__fadeInUp" data-title="${n}">
+                    <img src="${img}">
+                    <h3>${n}</h3>
+                    <div class="stars-container">
+                        <span class="star" onclick="handleRating(this)">★</span><span class="star" onclick="handleRating(this)">★</span>
+                        <span class="star" onclick="handleRating(this)">★</span><span class="star" onclick="handleRating(this)">★</span>
+                        <span class="star" onclick="handleRating(this)">★</span>
+                    </div>
+                    <div class="price-tag">${p} $</div>
+                    <button class="btn-action" onclick="addToCart('${n}', ${p})">إضافة للسلة ⚡</button>
+                </div>`;
+            alert("تمت إضافة منتجك بنجاح!");
+        }
+
+        // --- نظام عجلة الحظ ---
+        function startSpin() {
+            let wheel = document.getElementById('wheel');
+            let deg = Math.floor(5000 + Math.random() * 5000);
+            wheel.style.transform = `rotate(${deg}deg)`;
+            
+            setTimeout(() => {
+                confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 } });
+                alert("مذهل! فزت بخصم 50% كهدية. استخدم كود: SPIN-50");
+            }, 4100);
+        }
+
+        // --- نظام النجوم (تفاعل ذهبي) ---
+        function handleRating(star) {
+            let stars = star.parentElement.children;
+            let idx = Array.from(stars).indexOf(star);
+            for(let i=0; i<stars.length; i++) {
+                stars[i].classList.toggle('active', i <= idx);
+            }
+        }
+
+        // --- السلة والعمليات الحسابية ---
+        function addToCart(name, price) {
+            cart.push({name, price});
+            updateCart();
+            // انيميشن خفيف للأيقونة
+            const badge = document.getElementById('cartBadge');
+            badge.classList.add('animate__animated', 'animate__heartBeat');
+            setTimeout(() => badge.classList.remove('animate__heartBeat'), 1000);
+        }
+
+        function updateCart() {
+            document.getElementById('cartBadge').innerText = cart.length;
+            const list = document.getElementById('cartList');
+            list.innerHTML = cart.map((i, index) => `
+                <div class="cart-item">
+                    <span>${i.name}</span>
+                    <span style="color:var(--cyan-neon)">${i.price} $</span>
+                </div>
+            `).join('');
+
+            let total = cart.reduce((sum, i) => sum + i.price, 0);
+            total = total - (total * currentDiscount);
+            document.getElementById('finalTotal').innerText = total.toLocaleString();
+        }
+
+        function toggleCart() { document.getElementById('sideCart').classList.toggle('active'); }
+
+        // --- إتمام الشراء النهائي ---
+        function processPayment() {
+            if(cart.length === 0) return alert("السلة فارغة!");
+            
+            let coupon = document.getElementById('couponInput').value;
+            if(validCoupons.includes(coupon)) {
+                currentDiscount = 0.5; // خصم 50%
+                updateCart();
+            }
+
+            document.getElementById('successOverlay').style.display = 'flex';
+            confetti({ particleCount: 500, spread: 160, origin: { y: 0.5 } });
+        }
+
+        // --- البحث الحي ---
+        function liveSearch() {
+            let val = document.getElementById('mainSearch').value.toLowerCase();
+            let cards = document.querySelectorAll('.product-card');
+            cards.forEach(c => {
+                let title = c.getAttribute('data-title').toLowerCase();
+                c.style.display = title.includes(val) ? "block" : "none";
+            });
+        }
+    </script>
+</body>
+</html>
